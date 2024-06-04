@@ -190,9 +190,33 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
         .catch(error => {
             console.error('Error al intentar editar la accesibilidad de la carpeta:', error);
         });
+    };
 
-        
-    }
+    const handleDescargarImagen = async (imageUrl) => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}${imageUrl}`);
+      
+          if (!response.ok) {
+            throw new Error(`Error fetching image: ${response.status}`);
+          }
+      
+          const blob = await response.blob();
+      
+          const filename = imageUrl.split('/').pop();
+      
+          const downloadLink = URL.createObjectURL(blob);
+      
+          const link = document.createElement('a');
+          link.href = downloadLink;
+          link.download = filename;
+          link.click();
+      
+          URL.revokeObjectURL(downloadLink);
+        } catch (error) {
+          console.error(`Error downloading image: ${error.message}`);
+        }
+      };
+      
 
     return(
         <Layout>
@@ -239,8 +263,6 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                     </details>
                 </div>
 
-                
-
                     <div name='carpetas'>
                     <div className="divider"></div>
                     <div>
@@ -283,8 +305,15 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                                             <div className="px-6 py-4">
                                                 <div className="font-bold text-xl mb-2">{imagen.nombre}</div>
                                             </div>
+
+                                            <div className="flex justify-end">
+                                                <div 
+                                                className="btn"
+                                                onClick={() => handleDescargarImagen(imagen.imagen)}
+                                                >...</div>
+                                            </div>
                                         </div>
-                                    )
+                                    ) 
                                 ) : (
                                     <div className="col-span-3">
                                     </div>
@@ -304,6 +333,14 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                                             <div className="px-6 py-4">
                                                 <div className="font-bold text-xl mb-2">{video.nombre}</div>
                                             </div>
+                                            
+                                            <div className="flex justify-end">
+                                                <div 
+                                                className="btn"
+                                                onClick={() => handleDescargarImagen(video.video)}
+                                                >...</div>
+                                            </div>
+
                                         </div>
                                     )
                                 ) : (
@@ -349,12 +386,16 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                     
                     </div>
                 </div>
-
-                <button
-                    onClick={()=>document.getElementById('my_modal_file').showModal()}
-                    className="absolute bottom-4 right-4 px-4 py-2 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-700 transition duration-200">
-                    Subir archivos
-                </button>
+                
+                <div className="m-5">
+                    <div className="divider"></div>
+                    <button
+                        onClick={()=>document.getElementById('my_modal_file').showModal()}
+                        className="absolute bottom-4 right-4 px-4 py-2 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-700 transition duration-200">
+                        Subir archivos
+                    </button>
+                </div>
+                
 
                 {/* Open the modal using document.getElementById('ID').showModal() method */}
                 <dialog id="my_modal_file" className="modal">
@@ -428,7 +469,6 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                                         <option>todos</option>
                                     </select>
                                     </div>
-
                                     
                                 ):(
                                     <input 
@@ -438,8 +478,6 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                                     />
                                 )
                                 }
-                                
-
                             </label>
                         </div>
                     </div>
@@ -451,6 +489,7 @@ const Carpeta = ({subcarpetas, imagenes, archivos, videos, publica}) => {
                     </div>
                 </div>
             </dialog>
+
         </Layout>
     );
 };

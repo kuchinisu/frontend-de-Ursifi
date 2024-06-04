@@ -101,7 +101,7 @@ export const check_auth = () => async dispatch  => {
     }else{
 
     }
-}
+} 
 
 export const activate = (uid, token) => async dispatch => {
    dispatch({
