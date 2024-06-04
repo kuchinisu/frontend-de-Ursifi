@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .flask-logo {
+      position: relative;
+      width: 100px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .flask-body {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 50px 50px 70px 50px;
+      border-color: transparent transparent #306998 transparent;
+    }
+  
+    .flask-swirl {
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 80px;
+    }
+  }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes fadeInScale {
+  from {
+      
+      transform: scale(0.1); 
+  }
+  to {
+      
+      transform: scale(1); 
+  }
+}
+
+.message-gpt {
+  text-align: left;
+  float: left;
+  clear: both;
+  background-color: #d1e7dd;
+  border-radius: 12px; 
+  margin: 5px;
+  padding: 10px;
+}
+
+.message-user {
+  text-align: right;
+  float: right;
+  clear: both;
+  background-color: #f0f0f0; 
+  border-radius: 12px; 
+  margin: 5px;
+  padding: 10px;
+}
